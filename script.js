@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize game board
     function initializeBoard() {
+        gameBoard.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
+        gameBoard.style.gridTemplateRows = `repeat(${boardSize}, 1fr)`;
         for (let i = 0; i < boardSize; i++) {
             for (let j = 0; j < boardSize; j++) {
                 createTile(i, j);
@@ -59,16 +61,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Modify the merge result based on the specified probabilities
     function modifyMergeResult(value) {
         const randomValue = Math.random();
-        if (randomValue < 0.01) {
-            return 69420; // 1% chance to change to 69420
-        } else if (randomValue < 0.06) {
-            return value; // 5% chance to stay the same
-        } else if (randomValue < 0.16) {
-            return value + 1; // 10% chance to add 1
-        } else if (randomValue < 0.26) {
-            return value - 1; // 10% chance to subtract 1
-        } else if (randomValue < 0.31) {
-            return -value; // 5% chance to multiply by -1
+        if (randomValue < 0.02) {
+            return 69420; // 2% chance to change to 69420
+        } else if (randomValue < 0.12) {
+            return value; // 10% chance to stay the same
+        } else if (randomValue < 0.32) {
+            return value + 1; // 20% chance to add 1
+        } else if (randomValue < 0.52) {
+            return value - 1; // 20% chance to subtract 1
+        } else if (randomValue < 0.77) {
+            return -value; // 25% chance to multiply by -1
+        } else if (randomValue < 0.84) {
+            return Math.sqrt(value); // 7% chance to take the square root
         }
         return value * 2; // Default merge behavior
     }
@@ -119,17 +123,17 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let j = 0; j < filteredRow.length - 1; j++) {
                 if (filteredRow[j] === filteredRow[j + 1]) {
                     const randomValue = Math.random();
-                    if (randomValue < 0.02) {
-                        handleExplosion(i, j); // 2% chance of explosion
-                    } else {
+                    if (randomValue < 0.10) {
                         filteredRow[j] = modifyMergeResult(filteredRow[j] * 2);
+                    }
+                    if (randomValue >= 0.10 && randomValue < 0.20) {
+                        expandGrid(direction); // 10% chance to expand grid
+                    }
+                    if (randomValue >= 0.20 && randomValue < 0.30) {
+                        handleExplosion(i, j); // 10% chance of explosion
                     }
                     filteredRow.splice(j + 1, 1);
                     filteredRow.push(0);
-
-                    if (randomValue >= 0.02 && randomValue < 0.07) {
-                        expandGrid(direction); // 5% chance to expand grid
-                    }
                 }
             }
 
